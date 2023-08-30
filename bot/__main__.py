@@ -10,7 +10,7 @@ MONGO_URL = ("MONGO_URL")  # Retrieve MongoDB URI from Heroku environment variab
 app = Client("my_bot")
 
 # Connect to the database
-mongo_client = pymongo.MongoClient(MONGO_URL)
+mongo_client = MongoClient(MONGO_URL)
 db = mongo_client.get_database("anime_characters")
 
 
