@@ -1,45 +1,38 @@
 from pyrogram import filters
 from pyrogram.types import Message
-from main import app
-from database import DatabaseManager
-from auth import DEVELOPER_USERS, AUTHORIZED_USERS
+from main import app, AUTHORIZED_USERS
 
-db_manager = DatabaseManager()
+class AnimeCharacterManager:
+    def __init__(self):
+        self.anime_characters = []
 
-def is_developer(user_id):
-    return str(user_id) in DEVELOPER_USERS
+    def add_anime_character(self, character_info):
+        self.anime_characters.append(character_info)
 
-def is_authorized(user_id):
-    return str(user_id) in AUTHORIZED_USERS
+anime_character_manager = AnimeCharacterManager()
 
-# Command to add character with image
-@app.on_message(filters.command("add_character_img") & filters.user(is_authorized))
-def add_character_img(bot, message: Message):
-    user_id = message.from_user.id
-    
-    # Check if a photo is attached
-    if message.photo:
-        photo_id = message.photo[-1].file_id
-        caption = message.caption or ""
-        parts = caption.split("\n")
-        
-        # Parse character information from caption
-        if len(parts) >= 3:
-            character_name = parts[0]
-            rank = parts[1]
-            anime_name = parts[2]
-            
-            # Save character details to the database
-            character_id = db_manager.add_character_with_image(character_name, rank, anime_name, photo_id)
-            
-            # Reply to the user with a success message
-            bot.send_message(message.chat.id, f"Character added successfully!\nID: {character_id}")
-        else:
-            bot.send_message(message.chat.id, "Invalid caption format. Please provide:\nCharacter Name\nRank\nAnime Name")
-    else:
-        bot.send_message(message.chat.id, "Please attach a photo and provide a caption.")
+@app.on_message(filters.command("add_anime_character") & filters.user(AUTHORIZED_USERS))
+async def add_anime_character_handler(_, message: Message):
+    if len(message.command) < 4:
+        await message.reply("Please provide character name, rank, and anime name.")
+        return
 
-# Command to reset user harem
+    character_name = message.command[1]
+    rank = message.command[2]
+    anime_name = message.command[3]
+    character_info = {"name": character_name, "rank": rank, "anime": anime_name}
+
+    anime_character_manager.add_anime_character(character_info)
+    await message.reply("Anime character added!")
+
+@app.on_message(filters.command("list_anime_characters"))
+async def list_anime_characters_handler(_, message: Message):
+    characters_list = "\n".join([f"Name: {char['name']} | Rank: {char['rank']} | Anime: {char['anime']}" for char in anime_character_manager.anime_characters])
+    response = f"List of anime characters:\n\n{characters_list}"
+    await message.reply(response)
+
+# ... (other code)
+
 @app.on_message(filters.command("reset_harem") & filters.user(is_developer))
 def reset_harem(bot, message: Message):
     user_id = int(message.text.split()[1])
