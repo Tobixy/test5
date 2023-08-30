@@ -1,1 +1,2 @@
-worker: python3.10 harem_bot.py
+worker: python3.10 main.py
+
