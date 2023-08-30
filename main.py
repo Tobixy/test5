@@ -1,8 +1,6 @@
 from pyrogram import Client, filters
 from pyrogram.types import Message
 from auth import is_authorized, is_developer
-from character import CharacterManager
-from database import DatabaseManager
 
 app = Client("character_collector_bot")
 
