@@ -1,7 +1,7 @@
 import os
 from pymongo import MongoClient
 
-MONGO_URL = os.environ.get("MONGODB_URI")  # Retrieve MongoDB URI from Heroku environment variables
+MONGO_URL = ("MONGO_URL")  # Retrieve MongoDB URI from Heroku environment variables
 DB_NAME = "anime_characters"
 
 class DatabaseManager:
