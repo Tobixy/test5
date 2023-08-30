@@ -5,7 +5,14 @@ import time
 from database import DatabaseManager
 from character import CharacterManager
 
-app = Client("character_collector_bot")
+MONGO_URL = os.environ.get("MONGODB_URI")  # Retrieve MongoDB URI from Heroku environment variables
+
+app = Client("my_bot")
+
+# Connect to the database
+mongo_client = pymongo.MongoClient(MONGO_URL)
+db = mongo_client.get_database("anime_characters")
+
 
 db_manager = DatabaseManager()
 character_manager = CharacterManager()
