@@ -8,10 +8,10 @@ import time
 # Load environment variables from .env file
 load_dotenv()
 
-APP_ID = int(os.getenv("28374181"))
-API_HASH = os.getenv("00b7ca7f535e816590db39e76f85d0c7")
-BOT_TOKEN = os.getenv("6279286573:AAEozVzLkMArtH1BQCgoQtXKXYzHMAvt258")
-MONGO_URL = os.getenv("mongodb+srv://HoshinoAI:HoshinoV1@hoshinodb.cfany1w.mongodb.net/?retryWrites=true&w=majority")
+API_ID = int(os.getenv("API_ID"))
+API_HASH = os.getenv("API_HASH")
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+MONGO_URL = os.getenv("MONGO_URL")
 
 # Initialize Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
