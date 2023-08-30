@@ -5,7 +5,7 @@ import time
 from database import DatabaseManager
 from character import CharacterManager
 
-MONGO_URL = os.environ.get("MONGODB_URI")  # Retrieve MongoDB URI from Heroku environment variables
+MONGO_URL = ("MONGO_URL")  # Retrieve MongoDB URI from Heroku environment variables
 
 app = Client("my_bot")
 
