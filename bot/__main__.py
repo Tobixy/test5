@@ -1,24 +1,25 @@
 from pyrogram import Client, filters
-from pyrogram.types import InlineQueryResultArticle, InputTextMessageContent, Message
-import random
+from import os
+from pyrogram import Client, filters
+from pyrogram.types import Message
+from dotenv import load_dotenv
+from database import Database
 import time
-from database import DatabaseManager
-from character import CharacterManager
-from pymongo import MongoClient
 
-MONGO_URL = ("MONGO_URL")  # Retrieve MongoDB URI from Heroku environment variables
+# Load environment variables from .env file
+load_dotenv()
 
-app = Client("my_bot")
+API_ID = int(os.getenv("28374181"))
+API_HASH = os.getenv("00b7ca7f535e816590db39e76f85d0c7")
+BOT_TOKEN = os.getenv("6279286573:AAEozVzLkMArtH1BQCgoQtXKXYzHMAvt258")
+MONGO_URL = os.getenv("mongodb+srv://HoshinoAI:HoshinoV1@hoshinodb.cfany1w.mongodb.net/?retryWrites=true&w=majority")
 
-# Connect to the database
-mongo_client = pymongo.MongoClient(MONGO_URL)
-db = mongo_client.get_database("anime_characters")
+# Initialize Pyrogram client
+app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
+# Initialize database
+db = Database(MONGO_URL)
 
-db_manager = DatabaseManager()
-character_manager = CharacterManager()
-
-user_harems = {}
 spawn_time = 300  # Default spawn time in seconds
 
 # Command to start the bot
