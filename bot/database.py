@@ -4,10 +4,10 @@ from pymongo import MongoClient
 MONGO_URL = ("MONGO_URL")  # Retrieve MongoDB URI from Heroku environment variables
 DB_NAME = "anime_characters"
 
-class DatabaseManager:
-    def __init__(self):
-        self.client = MongoClient(MONGO_URL)
-        self.db = self.client[DB_NAME]
+class Database:
+    def __init__(self, mongo_uri):
+        self.client = MongoClient(mongo_uri)
+        self.db = self.client.get_database()
 
     def insert_character(self, character_info):
         self.db.characters.insert_one(character_info)
@@ -23,4 +23,5 @@ class DatabaseManager:
 
     # Add more methods as needed
 
-database_manager = DatabaseManager()
+def close(self):
+        self.client.close()
